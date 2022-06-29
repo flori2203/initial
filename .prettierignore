@@ -3,4 +3,5 @@ ios
 android
 .vscode
 ignite/ignite.json
+ignite/templates/*
 package.json
