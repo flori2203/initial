@@ -2,16 +2,11 @@ import React, { FC } from "react"
 import { View, ViewStyle, TextStyle, ImageStyle, SafeAreaView } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
-import {
-  Button,
-  Header,
-  Screen,
-  Text,
-  GradientBackground,
-  AutoImage as Image,
-} from "../../components"
+import { Header, Screen, Text, GradientBackground, AutoImage as Image } from "../../components"
 import { color, spacing, typography } from "../../theme"
 import { NavigatorParamList } from "../../navigators"
+import { Button, Card, Toggle } from "@ui-kitten/components"
+import { useStore } from "../../models"
 
 const bowserLogo = require("./bowser.png")
 
@@ -69,17 +64,6 @@ const CONTENT: TextStyle = {
   lineHeight: 22,
   marginBottom: spacing[5],
 }
-const CONTINUE: ViewStyle = {
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
-  backgroundColor: color.palette.deepPurple,
-}
-const CONTINUE_TEXT: TextStyle = {
-  ...TEXT,
-  ...BOLD,
-  fontSize: 13,
-  letterSpacing: 2,
-}
 const FOOTER: ViewStyle = { backgroundColor: "#20162D" }
 const FOOTER_CONTENT: ViewStyle = {
   paddingVertical: spacing[4],
@@ -87,6 +71,8 @@ const FOOTER_CONTENT: ViewStyle = {
 }
 
 export const WelcomeScreen: FC<StackScreenProps<NavigatorParamList, "welcome">> = observer(() => {
+  const { themeStore } = useStore()
+  console.log(themeStore.theme)
   return (
     <View testID="WelcomeScreen" style={FULL}>
       <GradientBackground colors={["#422443", "#281b34"]} />
@@ -99,6 +85,10 @@ export const WelcomeScreen: FC<StackScreenProps<NavigatorParamList, "welcome">> 
         </Text>
         <Text style={TITLE} preset="header" tx="welcomeScreen.readyForLaunch" />
         <Image source={bowserLogo} style={BOWSER} />
+        <Card>
+          <Toggle checked={true} />
+        </Card>
+        <Button onPress={themeStore.changeTheme}>Change Theme</Button>
         <Text style={CONTENT}>
           This probably isn't what your app is going to look like. Unless your designer handed you
           this screen and, in that case, congrats! You're ready to ship.
@@ -109,14 +99,7 @@ export const WelcomeScreen: FC<StackScreenProps<NavigatorParamList, "welcome">> 
         </Text>
       </Screen>
       <SafeAreaView style={FOOTER}>
-        <View style={FOOTER_CONTENT}>
-          <Button
-            testID="next-screen-button"
-            style={CONTINUE}
-            textStyle={CONTINUE_TEXT}
-            tx="welcomeScreen.continue"
-          />
-        </View>
+        <View style={FOOTER_CONTENT}></View>
       </SafeAreaView>
     </View>
   )
